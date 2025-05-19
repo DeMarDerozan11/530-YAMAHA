@@ -29,7 +29,7 @@ public class DashboardController {
     private TableColumn<Cours, String> colSalle;
 
     // Liste observable pour le tableau
-    private ObservableList<Cours> listeCours = FXCollections.observableArrayList();
+    private final ObservableList<Cours> listeCours = FXCollections.observableArrayList();
 
     @FXML
     private TextField fieldCours;
