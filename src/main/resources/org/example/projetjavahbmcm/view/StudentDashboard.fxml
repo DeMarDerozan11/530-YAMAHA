@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjavahbmcm.controller.StudentDashboardController">
+    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+        <Label text="Emploi du Temps - Étudiant" style="-fx-font-size: 20px; -fx-font-weight: bold;" alignment="CENTER"/>
+
+        <GridPane fx:id="gridEmploiDuTemps" gridLinesVisible="true">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="14" />
+                <ColumnConstraints percentWidth="14" />
+                <ColumnConstraints percentWidth="14" />
+                <ColumnConstraints percentWidth="14" />
+                <ColumnConstraints percentWidth="14" />
+                <ColumnConstraints percentWidth="14" />
+                <ColumnConstraints percentWidth="14" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="10" />
+                <RowConstraints percentHeight="15" />
+                <RowConstraints percentHeight="15" />
+                <RowConstraints percentHeight="15" />
+                <RowConstraints percentHeight="15" />
+                <RowConstraints percentHeight="15" />
+                <RowConstraints percentHeight="15" />
+            </rowConstraints>
+        </GridPane>
+
+        <Button text="Se Déconnecter" onAction="#handleLogout" alignment="CENTER_RIGHT" />
+    </VBox>
+</AnchorPane>

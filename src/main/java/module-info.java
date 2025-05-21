@@ -14,4 +14,9 @@ module org.example.projetjavahbmcm {
 
     exports org.example.projetjavahbmcm.model;
     opens org.example.projetjavahbmcm.model to javafx.base;
+
+    requires java.sql;
+    requires org.xerial.sqlitejdbc;
+
+
 }
