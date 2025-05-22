@@ -6,13 +6,64 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import org.example.projetjavahbmcm.database.DatabaseManager;
+
 import java.io.IOException;
 
 public class TeacherDashboardController {
 
+    @FXML private Button btnLogout;
+    @FXML private Label labelBienvenue;
+
+    private String emailUtilisateur;
+    private String nomEnseignant;
+
+    public void setUtilisateurConnecte(String email) {
+        this.emailUtilisateur = email;
+        this.nomEnseignant = getNomEnseignant(email);
+
+        if (labelBienvenue != null && nomEnseignant != null) {
+            labelBienvenue.setText("Bienvenue, " + nomEnseignant);
+        }
+    }
+
+    private String getNomEnseignant(String email) {
+        String sql = "SELECT nom || ' ' || prenom as nom_complet FROM utilisateur WHERE email = ? AND type = 'enseignant'";
+        try (var conn = DatabaseManager.getConnection();
+             var pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+            var rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("nom_complet");
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération du nom : " + e.getMessage());
+        }
+        return "Enseignant";
+    }
+
     @FXML
-    private Button btnLogout;
+    private void handleVoirMonEmploiDuTemps() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/ScheduleView.fxml"));
+            Parent root = loader.load();
+
+            ScheduleViewController controller = loader.getController();
+            controller.afficherEmploiDuTempsEnseignant(emailUtilisateur, nomEnseignant);
+
+            Stage stage = new Stage();
+            stage.setTitle("Mon Emploi du Temps - " + nomEnseignant);
+            stage.setScene(new Scene(root, 1000, 700));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void handleLogout(ActionEvent event) {

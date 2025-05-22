@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjavahbmcm.controller.AddUserController">
-    <VBox spacing="10" padding="20" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
-        <Label text="Ajouter un Utilisateur" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 
-        <TextField fx:id="fieldNom" promptText="Nom" />
-        <TextField fx:id="fieldPrenom" promptText="Prénom" />
-        <TextField fx:id="fieldEmail" promptText="Email" />
-        <PasswordField fx:id="fieldMotDePasse" promptText="Mot de passe" />
-
-        <ComboBox fx:id="comboType">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="etudiant" />
-                    <String fx:value="enseignant" />
-                </FXCollections>
-            </items>
-        </ComboBox>
-
-        <Button text="Ajouter" onAction="#handleAjouterUtilisateur" />
-        <Button text="Retour" onAction="#handleRetour" />
-    </VBox>
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjavahbmcm.controller.AddUserController">
+    <children>
+        <VBox spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <children>
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Ajouter un Utilisateur" />
+                <TextField fx:id="fieldNom" promptText="Nom" />
+                <TextField fx:id="fieldPrenom" promptText="Prénom" />
+                <TextField fx:id="fieldEmail" promptText="Email" />
+                <PasswordField fx:id="fieldMotDePasse" promptText="Mot de passe" />
+                <ComboBox fx:id="comboType" promptText="Sélectionner le type">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="etudiant" />
+                            <String fx:value="enseignant" />
+                            <String fx:value="admin" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <TextField fx:id="fieldClasse" promptText="Classe (optionnel, pour les étudiants)" />
+                <HBox spacing="10.0">
+                    <children>
+                        <Button onAction="#handleAjouterUtilisateur" text="Ajouter" />
+                        <Button onAction="#handleRetour" text="Retour" />
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+    </children>
 </AnchorPane>

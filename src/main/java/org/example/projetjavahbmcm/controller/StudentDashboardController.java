@@ -11,7 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.example.projetjavahbmcm.model.Cours;
+import org.example.projetjavahbmcm.database.DatabaseManager;
+import org.example.projetjavahbmcm.model.CoursEmploiDuTemps;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,59 +22,122 @@ public class StudentDashboardController {
     @FXML
     private GridPane gridEmploiDuTemps;
 
-    // Méthode pour afficher les cours d'un étudiant
-    public void afficherCours(List<Cours> coursList) {
-        for (Cours cours : coursList) {
-            StackPane cell = new StackPane();
+    private String emailUtilisateur;
+    private String classeUtilisateur;
 
-            Rectangle fond = new Rectangle(100, 80);
-            fond.setFill(Color.LIGHTCORAL);
-            fond.setArcWidth(10);
-            fond.setArcHeight(10);
+    @FXML
+    public void initialize() {
+        System.out.println("StudentDashboardController initialisé !");
+        setupGrid();
+    }
 
-            Text texte = new Text(cours.getNom() + "\n" + cours.getHoraire());
+    private void setupGrid() {
+        // Ajouter les en-têtes à la grille
+        String[] jours = {"", "LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"};
+        String[] heures = {"08:30-10:30", "10:45-12:45", "13:45-15:45", "16:00-18:00"};
 
-            cell.getChildren().addAll(fond, texte);
+        // En-têtes des jours
+        for (int i = 0; i < jours.length; i++) {
+            Label label = new Label(jours[i]);
+            label.setStyle("-fx-background-color: #e3f2fd; -fx-alignment: center; -fx-font-weight: bold; -fx-padding: 5px;");
+            gridEmploiDuTemps.add(label, i, 0);
+        }
 
-            int col = getColonneDepuisJour(cours.getHoraire());
-            int row = getLigneDepuisHoraire(cours.getHoraire());
-
-            gridEmploiDuTemps.add(cell, col, row);
+        // En-têtes des heures
+        for (int i = 0; i < heures.length; i++) {
+            Label label = new Label(heures[i]);
+            label.setStyle("-fx-background-color: #f5f5f5; -fx-alignment: center; -fx-font-size: 11px; -fx-padding: 5px;");
+            gridEmploiDuTemps.add(label, 0, i + 1);
         }
     }
 
-    // Méthodes simples pour parser l’horaire (à adapter selon ton format)
-    private int getColonneDepuisJour(String horaire) {
-        if (horaire.contains("Lundi")) return 0;
-        if (horaire.contains("Mardi")) return 1;
-        if (horaire.contains("Mercredi")) return 2;
-        if (horaire.contains("Jeudi")) return 3;
-        if (horaire.contains("Vendredi")) return 4;
-        return 0; // par défaut
+    public void setUtilisateurConnecte(String email) {
+        this.emailUtilisateur = email;
+        this.classeUtilisateur = getClasseEtudiant(email);
+        System.out.println("Étudiant connecté : " + email + ", Classe : " + classeUtilisateur);
+        chargerEmploiDuTemps();
     }
 
-    private int getLigneDepuisHoraire(String horaire) {
-        if (horaire.contains("9h")) return 0;
-        if (horaire.contains("10h")) return 1;
-        if (horaire.contains("11h")) return 2;
-        if (horaire.contains("12h")) return 3;
-        if (horaire.contains("13h")) return 4;
-        if (horaire.contains("14h")) return 5;
-        if (horaire.contains("15h")) return 6;
-        if (horaire.contains("16h")) return 7;
-        return 8; // par défaut
+    private String getClasseEtudiant(String email) {
+        String sql = "SELECT classe FROM utilisateur WHERE email = ? AND type = 'etudiant'";
+        try (var conn = DatabaseManager.getConnection();
+             var pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+            var rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("classe");
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération de la classe : " + e.getMessage());
+        }
+        return null;
+    }
+
+    private void chargerEmploiDuTemps() {
+        if (classeUtilisateur != null) {
+            List<CoursEmploiDuTemps> cours = DatabaseManager.getEmploiDuTempsParClasse(classeUtilisateur);
+            System.out.println("Cours trouvés pour " + classeUtilisateur + " : " + cours.size());
+            afficherCours(cours);
+        } else {
+            System.out.println("Aucune classe trouvée pour cet étudiant");
+        }
+    }
+
+    public void afficherCours(List<CoursEmploiDuTemps> coursList) {
+        for (CoursEmploiDuTemps cours : coursList) {
+            StackPane cell = new StackPane();
+
+            Rectangle fond = new Rectangle(110, 50);
+            fond.setFill(Color.web(cours.getCouleur()));
+            fond.setArcWidth(5);
+            fond.setArcHeight(5);
+
+            Text texte = new Text(cours.getNomCours() + "\n" + cours.getSalle());
+            texte.setWrappingWidth(100);
+            texte.setStyle("-fx-font-size: 10px; -fx-text-alignment: center;");
+
+            cell.getChildren().addAll(fond, texte);
+
+            int col = getColonneDepuisJour(cours.getCreneau().getJourSemaine());
+            int row = getLigneDepuisHoraire(cours.getCreneau().getHeureDebut());
+
+            if (col > 0 && row > 0) {
+                gridEmploiDuTemps.add(cell, col, row);
+            }
+        }
+    }
+
+    private int getColonneDepuisJour(String jour) {
+        switch (jour) {
+            case "LUNDI": return 1;
+            case "MARDI": return 2;
+            case "MERCREDI": return 3;
+            case "JEUDI": return 4;
+            case "VENDREDI": return 5;
+            default: return 0;
+        }
+    }
+
+    private int getLigneDepuisHoraire(String heure) {
+        switch (heure) {
+            case "08:30": return 1;
+            case "10:45": return 2;
+            case "13:45": return 3;
+            case "16:00": return 4;
+            default: return 1;
+        }
     }
 
     @FXML
     private void handleLogout() {
-        System.out.println("Déconnexion en cours...");
+        System.out.println("Déconnexion étudiant...");
 
         try {
-            // Charger le fichier FXML du login
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/login.fxml"));
             Parent root = fxmlLoader.load();
 
-            // Récupérer la fenêtre actuelle et remplacer la scène
             Stage stage = (Stage) gridEmploiDuTemps.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Connexion - Gestion des Emplois du Temps");
@@ -83,6 +147,31 @@ public class StudentDashboardController {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Erreur lors du retour à l'écran de connexion.");
+        }
+    }
+
+    @FXML
+    private void handleVoirEmploiDuTempsGraphique() {
+        if (classeUtilisateur == null) {
+            System.out.println("Erreur : Aucune classe définie pour cet étudiant");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/ScheduleView.fxml"));
+            Parent root = loader.load();
+
+            ScheduleViewController controller = loader.getController();
+            controller.afficherEmploiDuTempsClasse(classeUtilisateur);
+
+            Stage stage = new Stage();
+            stage.setTitle("Mon Emploi du Temps - " + classeUtilisateur);
+            stage.setScene(new Scene(root, 1000, 700));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors de l'ouverture de l'emploi du temps graphique");
         }
     }
 }

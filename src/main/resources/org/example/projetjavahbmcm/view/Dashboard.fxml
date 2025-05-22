@@ -40,7 +40,7 @@
         <Button text="Se Déconnecter" onAction="#handleLogout"/>
         <Button text="Supprimer" onAction="#handleDeleteCourse"/>
         <Button text="Ajouter un utilisateur" onAction="#handleOpenAddUser" />
-
+        <Button text="Créer un emploi du temps" onAction="#handleCreateSchedule" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
 
 
     </VBox>

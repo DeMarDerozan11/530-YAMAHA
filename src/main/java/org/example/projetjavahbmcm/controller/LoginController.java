@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -32,7 +33,7 @@ public class LoginController {
         System.out.println("LoginController initialisé !");
     }
 
-
+/*
     @FXML
     private void handleLogin() {
         System.out.println("Bouton Se connecter cliqué !");
@@ -72,7 +73,7 @@ public class LoginController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
+*/
 
     /*
     @FXML
@@ -171,4 +172,90 @@ public class LoginController {
     }
 
      */
+
+    @FXML
+    private void handleLogin() {
+        System.out.println("Bouton Se connecter cliqué !");
+
+        String email = emailField.getText();
+        String password = passwordField.getText();
+
+        System.out.println("Tentative de connexion : " + email);
+
+        // Vérifier d'abord avec la base de données
+        if (DatabaseManager.authentifierUtilisateur(email, password)) {
+            System.out.println("Connexion réussie !");
+
+            String typeUtilisateur = DatabaseManager.getTypeUtilisateur(email);
+
+            try {
+                FXMLLoader fxmlLoader;
+                String titre;
+
+                switch (typeUtilisateur) {
+                    case "admin":
+                        fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/Dashboard.fxml"));
+                        titre = "Tableau de Bord - Administrateur";
+                        break;
+                    case "enseignant":
+                        fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/TeacherDashboard.fxml"));
+                        titre = "Tableau de Bord - Enseignant";
+                        break;
+                    case "etudiant":
+                        fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/StudentDashboard.fxml"));
+                        titre = "Emploi du Temps - Étudiant";
+                        break;
+                    default:
+                        afficherAlerte("Type d'utilisateur non reconnu.");
+                        return;
+                }
+
+                Parent root = fxmlLoader.load();
+
+                // Passer les informations utilisateur aux contrôleurs si nécessaire
+                if ("etudiant".equals(typeUtilisateur)) {
+                    StudentDashboardController controller = fxmlLoader.getController();
+                    controller.setUtilisateurConnecte(email);
+                } else if ("enseignant".equals(typeUtilisateur)) {
+                    TeacherDashboardController controller = fxmlLoader.getController();
+                    controller.setUtilisateurConnecte(email);
+                }
+
+                Stage stage = (Stage) emailField.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle(titre);
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                afficherAlerte("Erreur lors du chargement de l'interface.");
+            }
+        } else if (email.equals("admin@gmail.com") && password.equals("admin123")) {
+            // Connexion admin de secours (pour les tests)
+            System.out.println("Connexion admin de secours !");
+
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/Dashboard.fxml"));
+                Parent root = fxmlLoader.load();
+
+                Stage stage = (Stage) emailField.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Tableau de Bord - Emploi du Temps");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Échec de la connexion.");
+            afficherAlerte("Email ou mot de passe incorrect.");
+        }
+    }
+
+    private void afficherAlerte(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

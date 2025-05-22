@@ -181,4 +181,22 @@ public class DashboardController {
         }
     }
 
+    @FXML
+    private void handleCreateSchedule() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/ScheduleCreator.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Créateur d'Emploi du Temps");
+            stage.setScene(new Scene(root, 800, 700));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setContentText("Erreur lors de l'ouverture du créateur d'emploi du temps.");
+            alert.showAndWait();
+        }
+    }
+
 }

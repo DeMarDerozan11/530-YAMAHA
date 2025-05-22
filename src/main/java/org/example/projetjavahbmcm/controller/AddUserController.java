@@ -31,34 +31,86 @@ public class AddUserController {
     private ComboBox<String> comboType;
 
     @FXML
+    private TextField fieldClasse;
+
+    @FXML
+    private void initialize() {
+        // Listener pour afficher/masquer le champ classe selon le type
+        comboType.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if ("etudiant".equals(newVal)) {
+                fieldClasse.setVisible(true);
+                fieldClasse.setPromptText("Classe (ex: 3eD)");
+            } else {
+                fieldClasse.setVisible(false);
+                fieldClasse.clear();
+            }
+        });
+
+        // Par défaut, masquer le champ classe
+        fieldClasse.setVisible(false);
+    }
+
+    @FXML
     private void handleAjouterUtilisateur() {
         String nom = fieldNom.getText().trim();
         String prenom = fieldPrenom.getText().trim();
         String email = fieldEmail.getText().trim();
         String motDePasse = fieldMotDePasse.getText();
         String type = comboType.getValue();
+        String classe = fieldClasse.getText().trim();
 
+        // Validation des champs obligatoires
         if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || motDePasse.isEmpty() || type == null) {
-            afficherAlerte("Tous les champs doivent être remplis.");
+            afficherAlerte("Erreur", "Tous les champs obligatoires doivent être remplis.", Alert.AlertType.ERROR);
             return;
         }
 
-        boolean success = DatabaseManager.ajouterUtilisateur(nom, prenom, email, motDePasse, type);
+        // Validation de l'email
+        if (!isValidEmail(email)) {
+            afficherAlerte("Erreur", "Format d'email invalide.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Validation du mot de passe
+        if (motDePasse.length() < 6) {
+            afficherAlerte("Erreur", "Le mot de passe doit contenir au moins 6 caractères.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Pour les étudiants, la classe est optionnelle mais recommandée
+        if ("etudiant".equals(type) && classe.isEmpty()) {
+            classe = null; // Peut être null en base
+        }
+
+        // Tentative d'ajout en base
+        boolean success = DatabaseManager.ajouterUtilisateur(nom, prenom, email, motDePasse, type, classe);
+
         if (success) {
-            afficherAlerte("Utilisateur ajouté avec succès !");
-            fieldNom.clear();
-            fieldPrenom.clear();
-            fieldEmail.clear();
-            fieldMotDePasse.clear();
-            comboType.getSelectionModel().clearSelection();
+            afficherAlerte("Succès", "Utilisateur ajouté avec succès !", Alert.AlertType.INFORMATION);
+            clearFields();
         } else {
-            afficherAlerte("Erreur : impossible d'ajouter l'utilisateur. L'email est peut-être déjà utilisé.");
+            afficherAlerte("Erreur", "Impossible d'ajouter l'utilisateur. L'email est peut-être déjà utilisé.", Alert.AlertType.ERROR);
         }
     }
 
-    private void afficherAlerte(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
+    private void clearFields() {
+        fieldNom.clear();
+        fieldPrenom.clear();
+        fieldEmail.clear();
+        fieldMotDePasse.clear();
+        fieldClasse.clear();
+        comboType.getSelectionModel().clearSelection();
+        fieldClasse.setVisible(false);
+    }
+
+    private boolean isValidEmail(String email) {
+        return email.contains("@") && email.contains(".");
+    }
+
+    private void afficherAlerte(String titre, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(titre);
+        alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
@@ -66,11 +118,9 @@ public class AddUserController {
     @FXML
     private void handleRetour() {
         try {
-            // Charger le tableau de bord administrateur
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/Dashboard.fxml"));
             Parent root = fxmlLoader.load();
 
-            // Récupérer la fenêtre actuelle et y afficher le tableau de bord
             Stage stage = (Stage) fieldNom.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Tableau de Bord - Admin");
@@ -79,12 +129,7 @@ public class AddUserController {
             System.out.println("Retour au tableau de bord admin !");
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Erreur lors du retour au tableau de bord.");
+            afficherAlerte("Erreur", "Erreur lors du retour au tableau de bord.", Alert.AlertType.ERROR);
         }
     }
-
-    @FXML
-    private TextField fieldClasse;
-
-
 }

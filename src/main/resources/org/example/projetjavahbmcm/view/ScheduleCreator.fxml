@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjavahbmcm.controller.ScheduleCreatorController">
+    <children>
+        <VBox spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <children>
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Créateur d'Emploi du Temps" />
+
+                <GridPane hgap="15.0" vgap="15.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="150.0" />
+                        <ColumnConstraints minWidth="250.0" />
+                    </columnConstraints>
+                    <children>
+                        <Label text="Nom du cours :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="fieldNomCours" promptText="Ex: Algorithmique et Programmation" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="Enseignant :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="comboEnseignant" promptText="Sélectionner un enseignant" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="250.0" />
+
+                        <Label text="Classe :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="comboClasse" promptText="Sélectionner une classe" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="250.0" />
+
+                        <Label text="Salle :" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <ComboBox fx:id="comboSalle" promptText="Sélectionner une salle" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="250.0" />
+
+                        <Label text="Jour :" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <ComboBox fx:id="comboJour" promptText="Sélectionner un jour" GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="250.0">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="LUNDI" />
+                                    <String fx:value="MARDI" />
+                                    <String fx:value="MERCREDI" />
+                                    <String fx:value="JEUDI" />
+                                    <String fx:value="VENDREDI" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                        <Label text="Créneau horaire :" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <ComboBox fx:id="comboCreneau" promptText="Sélectionner un créneau" GridPane.columnIndex="1" GridPane.rowIndex="5" prefWidth="250.0" />
+                    </children>
+                </GridPane>
+
+                <HBox spacing="15.0" alignment="CENTER">
+                    <children>
+                        <Button onAction="#handleAjouterCours" text="Ajouter le cours" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                        <Button onAction="#handleVoirEmploiDuTemps" text="Voir l'emploi du temps" style="-fx-background-color: #2196F3; -fx-text-fill: white;" />
+                        <Button onAction="#handleRetour" text="Retour" style="-fx-background-color: #f44336; -fx-text-fill: white;" />
+                    </children>
+                </HBox>
+
+                <Separator />
+
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Emplois du temps existants :" />
+
+                <TableView fx:id="tableEmploiDuTemps" prefHeight="300.0">
+                    <columns>
+                        <TableColumn text="Cours" fx:id="colCours" prefWidth="120" />
+                        <TableColumn text="Enseignant" fx:id="colEnseignant" prefWidth="120" />
+                        <TableColumn text="Classe" fx:id="colClasse" prefWidth="80" />
+                        <TableColumn text="Salle" fx:id="colSalle" prefWidth="80" />
+                        <TableColumn text="Jour" fx:id="colJour" prefWidth="80" />
+                        <TableColumn text="Horaire" fx:id="colHoraire" prefWidth="120" />
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10.0" alignment="CENTER">
+                    <children>
+                        <Button onAction="#handleSupprimerCours" text="Supprimer le cours sélectionné" style="-fx-background-color: #ff9800; -fx-text-fill: white;" />
+                        <Button onAction="#handleActualiser" text="Actualiser" />
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>
