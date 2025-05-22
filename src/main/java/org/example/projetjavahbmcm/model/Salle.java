@@ -7,6 +7,7 @@ public class Salle {
     private String nom;
     private int capacite;
     private boolean disponible;
+    private String equipement;
 
     // Constructeur
     public Salle(int idSalle, String nom, int capacite, boolean disponible) {
@@ -66,6 +67,14 @@ public class Salle {
     @Override
     public String toString() {
         return this.getNom();
+    }
+
+    public String getEquipement() {
+        return equipement;
+    }
+
+    public void setEquipement(String equipement) {
+        this.equipement = equipement;
     }
 
 }

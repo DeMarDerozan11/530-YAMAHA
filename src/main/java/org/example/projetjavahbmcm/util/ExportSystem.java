@@ -107,12 +107,15 @@ public class ExportSystem {
     // Impression directe (comme PDF)
     public static void imprimerEmploiDuTemps(Node nodeToprint, String titre) {
         Printer printer = Printer.getDefaultPrinter();
+        if (printer == null) {
+            afficherErreur("Erreur d'impression", "Aucune imprimante disponible.");
+            return;
+        }
+
         PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT);
 
-        PrinterJob job = PrinterJob.createPrinterJob();
-        if (job != null) {
-
-
+        PrinterJob job = PrinterJob.createPrinterJob(printer);
+        if (job != null && job.showPrintDialog(nodeToprint.getScene().getWindow())) {
             boolean success = job.printPage(pageLayout, nodeToprint);
             if (success) {
                 job.endJob();

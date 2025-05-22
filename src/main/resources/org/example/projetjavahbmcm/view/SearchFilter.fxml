@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjavahbmcm.controller.SearchFilterController">
+
+    <top>
+        <VBox spacing="15.0" style="-fx-background-color: #f8f9fa; -fx-border-color: #e0e0e0; -fx-border-width: 0 0 1 0;">
+            <children>
+                <Label text="🔍 Recherche et Filtres d'Emploi du Temps" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+                <!-- Barre de recherche -->
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <children>
+                        <Label text="Rechercher :" minWidth="80.0" />
+                        <TextField fx:id="fieldRecherche" promptText="Nom du cours, enseignant, salle..." prefWidth="400.0" />
+                    </children>
+                </HBox>
+
+                <!-- Filtres -->
+                <GridPane hgap="15.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="80.0" />
+                        <ColumnConstraints minWidth="180.0" />
+                        <ColumnConstraints minWidth="80.0" />
+                        <ColumnConstraints minWidth="180.0" />
+                        <ColumnConstraints minWidth="80.0" />
+                        <ColumnConstraints minWidth="180.0" />
+                    </columnConstraints>
+
+                    <children>
+                        <Label text="Classe :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="comboClasse" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="Enseignant :" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="comboEnseignant" prefWidth="180.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                        <Label text="Jour :" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="comboJour" prefWidth="180.0" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+
+                        <Label text="Salle :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="comboSalle" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                        <Label text="Période :" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="comboPeriode" prefWidth="180.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                    </children>
+                </GridPane>
+
+                <!-- Boutons d'action -->
+                <HBox spacing="15.0" alignment="CENTER">
+                    <children>
+                        <Button onAction="#handleReinitialiserFiltres" text="🔄 Réinitialiser"
+                                style="-fx-background-color: #6b7280; -fx-text-fill: white;" />
+                        <Button onAction="#handleRechercherCreneauxLibres" text="🕐 Créneaux libres"
+                                style="-fx-background-color: #8b5cf6; -fx-text-fill: white;" />
+                        <Button onAction="#handleExporterResultats" text="📥 Exporter résultats"
+                                style="-fx-background-color: #10b981; -fx-text-fill: white;" />
+                    </children>
+                </HBox>
+
+                <!-- Statistiques des résultats -->
+                <HBox spacing="30.0" style="-fx-background-color: #e5e7eb; -fx-padding: 10px; -fx-background-radius: 5px;">
+                    <children>
+                        <Label fx:id="labelResultats" text="0 cours trouvé(s)" style="-fx-font-weight: bold;" />
+                        <Separator orientation="VERTICAL" />
+                        <Label fx:id="labelCreneauxLibres" text="Sélectionnez des filtres pour voir les créneaux libres" />
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="15.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableResultats" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn text="Cours" fx:id="colCours" prefWidth="150.0" />
+                <TableColumn text="Enseignant" fx:id="colEnseignant" prefWidth="150.0" />
+                <TableColumn text="Classe" fx:id="colClasse" prefWidth="80.0" />
+                <TableColumn text="Salle" fx:id="colSalle" prefWidth="80.0" />
+                <TableColumn text="Jour" fx:id="colJour" prefWidth="100.0" />
+                <TableColumn text="Horaire" fx:id="colHoraire" prefWidth="120.0" />
+            </columns>
+            <placeholder>
+                <Label text="Aucun cours ne correspond aux critères de recherche" />
+            </placeholder>
+        </TableView>
+    </center>
+
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" />
+    </padding>
+</BorderPane>

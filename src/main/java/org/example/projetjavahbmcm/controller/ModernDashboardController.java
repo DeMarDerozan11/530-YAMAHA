@@ -131,29 +131,65 @@ public class ModernDashboardController {
     @FXML
     private void handleShowSchedules() {
         setActiveButton(btnSchedules);
-        // TODO: Load schedules panel
-        showComingSoon("Gestion des emplois du temps");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/SearchFilter.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Recherche et filtres - Emplois du temps");
+            stage.setScene(new Scene(root, 1000, 700));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Erreur lors de l'ouverture de la recherche.");
+        }
     }
 
     @FXML
     private void handleShowUsers() {
         setActiveButton(btnUsers);
-        // TODO: Load users panel
-        showComingSoon("Gestion des utilisateurs");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/AddUserForm.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Gestion des utilisateurs");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Erreur lors de l'ouverture de la gestion des utilisateurs.");
+        }
     }
 
     @FXML
     private void handleShowRooms() {
         setActiveButton(btnRooms);
-        // TODO: Load rooms panel
-        showComingSoon("Gestion des salles");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/RoomManagement.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Gestion des salles");
+            stage.setScene(new Scene(root, 900, 600));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Erreur lors de l'ouverture de la gestion des salles.");
+        }
     }
 
     @FXML
     private void handleShowStats() {
         setActiveButton(btnStats);
-        // TODO: Load statistics panel
-        showComingSoon("Statistiques avancées");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/Statistics.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Statistiques et analyses");
+            stage.setScene(new Scene(root, 1000, 700));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Erreur lors de l'ouverture des statistiques.");
+        }
     }
 
     private void showComingSoon(String feature) {
@@ -268,4 +304,6 @@ public class ModernDashboardController {
         loadStatistics();
         loadRecentCourses();
     }
+
+
 }

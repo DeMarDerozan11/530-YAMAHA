@@ -80,4 +80,27 @@ public class TeacherDashboardController {
             System.out.println("Erreur lors du retour à l'écran de connexion : " + e.getMessage());
         }
     }
+
+    @FXML
+    private void handleSignalerAnomalie() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/AnomalyReport.fxml"));
+            Parent root = loader.load();
+
+            AnomalyReportController controller = loader.getController();
+            controller.setUtilisateurConnecte(emailUtilisateur);
+
+            Stage stage = new Stage();
+            stage.setTitle("Signaler une anomalie");
+            stage.setScene(new Scene(root, 800, 600));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors de l'ouverture du formulaire d'anomalie : " + e.getMessage());
+        }
+    }
+
+    
+
 }

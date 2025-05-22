@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjavahbmcm.controller.RoomManagementController">
+
+    <top>
+        <VBox spacing="10.0">
+            <children>
+                <Label text="🏫 Gestion des Salles" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+                <!-- Statistiques -->
+                <HBox spacing="20.0" style="-fx-background-color: #f0f4f8; -fx-padding: 15px; -fx-background-radius: 8px;">
+                    <children>
+                        <Label fx:id="labelTauxOccupation" text="Taux d'occupation : 0%" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+                        <Separator orientation="VERTICAL" />
+                        <Label fx:id="labelSallesPlusUtilisees" text="Salles les plus utilisées : -" style="-fx-font-size: 14px;" />
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </top>
+
+    <left>
+        <VBox spacing="15.0" prefWidth="350.0" style="-fx-background-color: #ffffff; -fx-border-color: #e0e0e0; -fx-border-width: 0 1 0 0;">
+            <children>
+                <Label text="📝 Détails de la salle" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="100.0" />
+                        <ColumnConstraints minWidth="200.0" />
+                    </columnConstraints>
+
+                    <children>
+                        <Label text="Nom :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="fieldNomSalle" promptText="Ex: Salle 211" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="Capacité :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <Spinner fx:id="spinnerCapacite" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200.0" />
+
+                        <Label text="Équipement :" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                        <TextArea fx:id="textAreaEquipement" promptText="Ex: Projecteur, Tableau interactif, Ordinateurs..."
+                                  prefRowCount="4" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                        <Label text="Disponible :" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <CheckBox fx:id="checkBoxDisponible" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    </children>
+                </GridPane>
+
+                <HBox spacing="10.0" alignment="CENTER">
+                    <children>
+                        <Button onAction="#handleAjouterSalle" text="➕ Ajouter" style="-fx-background-color: #10b981; -fx-text-fill: white;" />
+                        <Button onAction="#handleModifierSalle" text="✏️ Modifier" style="-fx-background-color: #3b82f6; -fx-text-fill: white;" />
+                        <Button onAction="#handleSupprimerSalle" text="🗑️ Supprimer" style="-fx-background-color: #ef4444; -fx-text-fill: white;" />
+                    </children>
+                </HBox>
+
+                <Separator />
+
+                <Button onAction="#handleRechercherSallesLibres" text="🔍 Rechercher des salles libres"
+                        style="-fx-background-color: #8b5cf6; -fx-text-fill: white;" prefWidth="300.0" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="10.0">
+            <children>
+                <Label text="📋 Liste des salles" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+                <TableView fx:id="tableSalles" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn text="ID" fx:id="colId" prefWidth="50.0" />
+                        <TableColumn text="Nom" fx:id="colNom" prefWidth="100.0" />
+                        <TableColumn text="Capacité" fx:id="colCapacite" prefWidth="80.0" />
+                        <TableColumn text="Équipement" fx:id="colEquipement" prefWidth="200.0" />
+                        <TableColumn text="Statut" fx:id="colDisponible" prefWidth="100.0" />
+                    </columns>
+                </TableView>
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </center>
+</BorderPane>
