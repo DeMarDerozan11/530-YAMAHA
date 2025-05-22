@@ -32,7 +32,7 @@ public class LoginController {
         System.out.println("LoginController initialisé !");
     }
 
-    /*
+
     @FXML
     private void handleLogin() {
         System.out.println("Bouton Se connecter cliqué !");
@@ -63,7 +63,7 @@ public class LoginController {
         }
     }
 
-     */
+
 
     private void afficherAlerte(String message) {
         javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
@@ -120,6 +120,7 @@ public class LoginController {
 
      */
 
+    /*
     @FXML
     private void handleLogin(ActionEvent event) {
         String email = emailField.getText().trim();
@@ -168,4 +169,6 @@ public class LoginController {
             afficherAlerte("Erreur lors de la connexion : " + e.getMessage());
         }
     }
+
+     */
 }
