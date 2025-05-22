@@ -6,17 +6,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.projetjavahbmcm.model.*;
 
 import java.io.IOException;
 
-public class MainApplication extends Application {
+public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
         DatabaseManager.initDatabase();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/org/example/projetjavahbmcm/view/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/org/example/projetjavahbmcm/view/login.fxml"));
         Parent root = fxmlLoader.load();
 
         System.out.println("FXMLLoader chargé : " + (root != null));
