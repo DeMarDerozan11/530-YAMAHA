@@ -225,6 +225,21 @@ public class ModernDashboardController {
     }
 
     @FXML
+    private void handleExportData() {
+        try {
+            Stage stage = (Stage) contentArea.getScene().getWindow();
+            org.example.projetjavahbmcm.util.ExportSystem.exporterToutesLesClassesCSV(stage);
+        } catch (Exception e) {
+            showError("Erreur lors de l'export : " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleViewNotifications() {
+        org.example.projetjavahbmcm.util.NotificationSystem.afficherNotifications("admin@gmail.com");
+    }
+
+    @FXML
     private void handleLogout() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/projetjavahbmcm/view/login.fxml"));

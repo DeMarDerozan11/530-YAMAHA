@@ -84,6 +84,9 @@ public class DatabaseManager {
             // Insérer des données de test si les tables sont vides
             insertTestDataIfNeeded(conn);
 
+            // Initialiser les tables pour les nouvelles fonctionnalités
+            org.example.projetjavahbmcm.util.NotificationSystem.initNotificationsTable();
+
             System.out.println("Base de données initialisée avec succès.");
 
         } catch (SQLException e) {
