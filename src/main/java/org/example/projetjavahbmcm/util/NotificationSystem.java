@@ -19,7 +19,7 @@ public class NotificationSystem {
         private int id;
         private String destinataire;
         private String message;
-        private String type; // INFO, WARNING, ERROR
+        private String type;
         private LocalDateTime dateCreation;
         private boolean lue;
 
@@ -32,7 +32,6 @@ public class NotificationSystem {
             this.lue = lue;
         }
 
-        // Getters
         public int getId() { return id; }
         public String getDestinataire() { return destinataire; }
         public String getMessage() { return message; }
@@ -45,7 +44,6 @@ public class NotificationSystem {
         }
     }
 
-    // Créer la table notifications si elle n'existe pas
     public static void initNotificationsTable() {
         String sql = """
             CREATE TABLE IF NOT EXISTS notifications (
@@ -66,7 +64,6 @@ public class NotificationSystem {
         }
     }
 
-    // Envoyer une notification
     public static boolean envoyerNotification(String destinataire, String message, String type) {
         String sql = "INSERT INTO notifications (destinataire, message, type, date_creation) VALUES (?, ?, ?, ?)";
 
@@ -86,7 +83,6 @@ public class NotificationSystem {
         }
     }
 
-    // Récupérer les notifications d'un utilisateur
     public static List<Notification> getNotifications(String utilisateur) {
         String sql = "SELECT * FROM notifications WHERE destinataire = ? OR destinataire = 'ALL' ORDER BY date_creation DESC LIMIT 10";
         List<Notification> notifications = new ArrayList<>();
@@ -115,7 +111,6 @@ public class NotificationSystem {
         return notifications;
     }
 
-    // Marquer une notification comme lue
     public static void marquerCommeLue(int notificationId) {
         String sql = "UPDATE notifications SET lue = TRUE WHERE id = ?";
 
@@ -130,7 +125,6 @@ public class NotificationSystem {
         }
     }
 
-    // Compter les notifications non lues
     public static int compterNotificationsNonLues(String utilisateur) {
         String sql = "SELECT COUNT(*) FROM notifications WHERE (destinataire = ? OR destinataire = 'ALL') AND lue = FALSE";
 
@@ -151,7 +145,6 @@ public class NotificationSystem {
         return 0;
     }
 
-    // Notifications automatiques pour changements d'emploi du temps
     public static void notifierChangementEmploiDuTemps(String classe, String message) {
         // Récupérer tous les étudiants de la classe
         String sql = "SELECT email FROM utilisateur WHERE type = 'etudiant' AND classe = ?";
@@ -173,7 +166,6 @@ public class NotificationSystem {
         }
     }
 
-    // Afficher les notifications dans une popup
     public static void afficherNotifications(String utilisateur) {
         List<Notification> notifications = getNotifications(utilisateur);
 

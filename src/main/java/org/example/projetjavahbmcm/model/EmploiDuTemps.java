@@ -9,14 +9,12 @@ public class EmploiDuTemps {
     private String periode;
     private List<Cours> listeCours;
 
-    // Constructeur
     public EmploiDuTemps(int idEmploiDuTemps, String periode) {
         this.idEmploiDuTemps = idEmploiDuTemps;
         this.periode = periode;
         this.listeCours = new ArrayList<>();
     }
 
-    // Getters et Setters
     public int getIdEmploiDuTemps() {
         return idEmploiDuTemps;
     }
@@ -37,7 +35,6 @@ public class EmploiDuTemps {
         return listeCours;
     }
 
-    // Méthodes spécifiques
     public void ajouterCours(Cours cours) {
         listeCours.add(cours);
         System.out.println("Cours ajouté : " + cours.getNom());

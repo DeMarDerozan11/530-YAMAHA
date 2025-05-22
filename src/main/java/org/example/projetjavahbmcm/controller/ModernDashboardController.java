@@ -22,25 +22,21 @@ import java.util.List;
 
 public class ModernDashboardController {
 
-    // Navigation buttons
     @FXML private Button btnOverview;
     @FXML private Button btnSchedules;
     @FXML private Button btnUsers;
     @FXML private Button btnRooms;
     @FXML private Button btnStats;
 
-    // Content area
     @FXML private StackPane contentArea;
     @FXML private VBox overviewPanel;
 
-    // Statistics labels
     @FXML private Label labelWelcome;
     @FXML private Label labelNbCours;
     @FXML private Label labelNbClasses;
     @FXML private Label labelNbEnseignants;
     @FXML private Label labelNbEtudiants;
 
-    // Recent courses table
     @FXML private TableView<CoursEmploiDuTemps> tableRecentCourses;
     @FXML private TableColumn<CoursEmploiDuTemps, String> colCours;
     @FXML private TableColumn<CoursEmploiDuTemps, String> colEnseignant;
@@ -59,7 +55,6 @@ public class ModernDashboardController {
         loadStatistics();
         loadRecentCourses();
 
-        // Set overview as active by default
         currentActiveButton = btnOverview;
         setActiveButton(btnOverview);
     }
@@ -79,19 +74,16 @@ public class ModernDashboardController {
         try (Connection conn = DatabaseManager.getConnection();
              Statement stmt = conn.createStatement()) {
 
-            // Count courses
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM cours_emploi_temps");
             if (rs.next()) {
                 labelNbCours.setText(String.valueOf(rs.getInt(1)));
             }
 
-            // Count teachers
             rs = stmt.executeQuery("SELECT COUNT(*) FROM utilisateur WHERE type = 'enseignant'");
             if (rs.next()) {
                 labelNbEnseignants.setText(String.valueOf(rs.getInt(1)));
             }
 
-            // Count students
             rs = stmt.executeQuery("SELECT COUNT(*) FROM utilisateur WHERE type = 'etudiant'");
             if (rs.next()) {
                 labelNbEtudiants.setText(String.valueOf(rs.getInt(1)));
@@ -119,13 +111,11 @@ public class ModernDashboardController {
         }
     }
 
-    // Navigation methods
     @FXML
     private void handleShowOverview() {
         setActiveButton(btnOverview);
         loadStatistics();
         loadRecentCourses();
-        // The overview panel is already visible by default
     }
 
     @FXML
@@ -201,7 +191,6 @@ public class ModernDashboardController {
     }
 
     private void setActiveButton(Button button) {
-        // Reset previous active button
         if (currentActiveButton != null) {
             currentActiveButton.setStyle(currentActiveButton.getStyle().replace(
                     "-fx-background-color: #3b82f6; -fx-text-fill: white;",
@@ -218,7 +207,6 @@ public class ModernDashboardController {
         currentActiveButton = button;
     }
 
-    // Action methods
     @FXML
     private void handleCreateCourse() {
         try {
@@ -299,7 +287,6 @@ public class ModernDashboardController {
         alert.showAndWait();
     }
 
-    // Method to refresh data
     public void refreshData() {
         loadStatistics();
         loadRecentCourses();

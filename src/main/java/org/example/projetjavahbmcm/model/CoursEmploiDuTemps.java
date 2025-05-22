@@ -1,4 +1,3 @@
-// CoursEmploiDuTemps.java
 package org.example.projetjavahbmcm.model;
 
 public class CoursEmploiDuTemps {
@@ -9,7 +8,7 @@ public class CoursEmploiDuTemps {
     private String classe;
     private String salle;
     private CreneauHoraire creneau;
-    private String couleur; // Pour la couleur d'affichage
+    private String couleur;
 
     public CoursEmploiDuTemps(int id, String nomCours, String enseignantNom, String enseignantEmail,
                               String classe, String salle, CreneauHoraire creneau) {
@@ -24,14 +23,12 @@ public class CoursEmploiDuTemps {
     }
 
     private String generateColor() {
-        // Génère une couleur basée sur le nom du cours
         int hash = nomCours.hashCode();
         String[] colors = {"#FFB6C1", "#87CEEB", "#98FB98", "#DDA0DD", "#F0E68C",
                 "#FFA07A", "#20B2AA", "#87CEFA", "#DEB887", "#F5DEB3"};
         return colors[Math.abs(hash) % colors.length];
     }
 
-    // Getters et Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

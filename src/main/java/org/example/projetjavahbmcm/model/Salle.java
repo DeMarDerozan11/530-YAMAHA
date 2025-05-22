@@ -9,7 +9,6 @@ public class Salle {
     private boolean disponible;
     private String equipement;
 
-    // Constructeur
     public Salle(int idSalle, String nom, int capacite, boolean disponible) {
         this.idSalle = idSalle;
         this.nom = nom;
@@ -17,7 +16,6 @@ public class Salle {
         this.disponible = disponible;
     }
 
-    // Getters et Setters
     public int getIdSalle() {
         return idSalle;
     }
@@ -50,7 +48,6 @@ public class Salle {
         this.disponible = disponible;
     }
 
-    // Méthodes spécifiques
     public void verifierDisponibilite() {
         System.out.println("Salle " + nom + " disponible : " + disponible);
     }

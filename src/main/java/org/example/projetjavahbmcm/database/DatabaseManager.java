@@ -12,7 +12,6 @@ public class DatabaseManager {
     }
 
     public static void initDatabase() {
-        // Vérifier si le fichier de base de données existe et est valide
         File dbFile = new File(DATABASE_FILE);
         if (dbFile.exists() && !isValidDatabase(dbFile)) {
             System.out.println("Base de données corrompue détectée. Suppression...");
@@ -22,7 +21,6 @@ public class DatabaseManager {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
-            // Créer la table utilisateur
             String createUtilisateur = """
                 CREATE TABLE IF NOT EXISTS utilisateur (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,7 +33,6 @@ public class DatabaseManager {
                 );
             """;
 
-            // Créer la table des créneaux horaires
             String createCreneaux = """
                 CREATE TABLE IF NOT EXISTS creneau_horaire (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,7 +43,6 @@ public class DatabaseManager {
                 );
             """;
 
-            // Créer la table cours pour l'emploi du temps
             String createCours = """
                 CREATE TABLE IF NOT EXISTS cours_emploi_temps (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -64,7 +60,6 @@ public class DatabaseManager {
                 );
             """;
 
-            // Créer la table salle
             String createSalle = """
                 CREATE TABLE IF NOT EXISTS salle (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -75,16 +70,13 @@ public class DatabaseManager {
                 );
             """;
 
-            // Exécuter les créations de tables
             stmt.execute(createUtilisateur);
             stmt.execute(createCreneaux);
             stmt.execute(createCours);
             stmt.execute(createSalle);
 
-            // Insérer des données de test si les tables sont vides
             insertTestDataIfNeeded(conn);
 
-            // Initialiser les tables pour les nouvelles fonctionnalités
             org.example.projetjavahbmcm.util.NotificationSystem.initNotificationsTable();
 
             System.out.println("Base de données initialisée avec succès.");
@@ -99,7 +91,6 @@ public class DatabaseManager {
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
              Statement stmt = conn.createStatement()) {
 
-            // Essayer une requête simple pour vérifier la validité
             stmt.execute("SELECT name FROM sqlite_master WHERE type='table' LIMIT 1");
             return true;
 
@@ -109,13 +100,11 @@ public class DatabaseManager {
     }
 
     private static void insertTestDataIfNeeded(Connection conn) throws SQLException {
-        // Vérifier si des utilisateurs existent déjà
         String checkUsers = "SELECT COUNT(*) FROM utilisateur";
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(checkUsers)) {
 
             if (rs.next() && rs.getInt(1) == 0) {
-                // Insérer des données de test seulement si la table est vide
                 insertTestData(conn);
             }
         }
@@ -123,53 +112,45 @@ public class DatabaseManager {
 
     private static void insertTestData(Connection conn) throws SQLException {
         String[] insertStatements = {
-                // Admin par défaut
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Admin', 'Système', 'admin@gmail.com', 'admin123', 'admin', NULL)",
 
-                // Étudiants G1
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Defoe', 'Patrick', 'patrick@eleve.isep.fr', 'patrick123', 'etudiant', 'G1')",
 
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Durant', 'Marine', 'marine@eleve.isep.fr', 'marine123', 'etudiant', 'G1')",
 
-                // Étudiants G2
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Martin', 'Lucas', 'lucas@eleve.isep.fr', 'lucas123', 'etudiant', 'G2')",
 
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Bernard', 'Emma', 'emma@eleve.isep.fr', 'emma123', 'etudiant', 'G2')",
 
-                // Étudiants G3
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Moreau', 'Hugo', 'hugo@eleve.isep.fr', 'hugo123', 'etudiant', 'G3')",
 
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Petit', 'Léa', 'lea@eleve.isep.fr', 'lea123', 'etudiant', 'G3')",
 
-                // Étudiants G4
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Roux', 'Nathan', 'nathan@eleve.isep.fr', 'nathan123', 'etudiant', 'G4')",
 
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Fournier', 'Chloé', 'chloe@eleve.isep.fr', 'chloe123', 'etudiant', 'G4')",
 
-                // Étudiants G5
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Girard', 'Antoine', 'antoine@eleve.isep.fr', 'antoine123', 'etudiant', 'G5')",
 
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Bonnet', 'Manon', 'manon@eleve.isep.fr', 'manon123', 'etudiant', 'G5')",
 
-                // Étudiants G6
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Dupont', 'Maxime', 'maxime@eleve.isep.fr', 'maxime123', 'etudiant', 'G6')",
 
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Laurent', 'Sarah', 'sarah@eleve.isep.fr', 'sarah123', 'etudiant', 'G6')",
 
-                // Enseignants
                 "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) " +
                         "VALUES ('Sensei', 'Kakashi', 'kakashi@enseignant.isep.fr', 'prof123', 'enseignant', NULL)",
 
@@ -194,29 +175,27 @@ public class DatabaseManager {
                         "VALUES ('305', 40, TRUE, 'Projecteur, Son')"
         };
 
-        // Créneaux horaires de 2h
         String[] creneauxStatements = {
-                // Lundi
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('LUNDI', '08:30', '10:30', 1)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('LUNDI', '10:45', '12:45', 2)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('LUNDI', '13:45', '15:45', 3)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('LUNDI', '16:00', '18:00', 4)",
-                // Mardi
+
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MARDI', '08:30', '10:30', 1)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MARDI', '10:45', '12:45', 2)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MARDI', '13:45', '15:45', 3)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MARDI', '16:00', '18:00', 4)",
-                // Mercredi
+
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MERCREDI', '08:30', '10:30', 1)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MERCREDI', '10:45', '12:45', 2)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MERCREDI', '13:45', '15:45', 3)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MERCREDI', '16:00', '18:00', 4)",
-                // Jeudi
+
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('JEUDI', '08:30', '10:30', 1)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('JEUDI', '10:45', '12:45', 2)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('JEUDI', '13:45', '15:45', 3)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('JEUDI', '16:00', '18:00', 4)",
-                // Vendredi
+
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('VENDREDI', '08:30', '10:30', 1)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('VENDREDI', '10:45', '12:45', 2)",
                 "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('VENDREDI', '13:45', '15:45', 3)",
@@ -224,7 +203,6 @@ public class DatabaseManager {
         };
 
         try (Statement stmt = conn.createStatement()) {
-            // Insérer les utilisateurs
             for (String sql : insertStatements) {
                 try {
                     stmt.execute(sql);
@@ -233,7 +211,6 @@ public class DatabaseManager {
                 }
             }
 
-            // Insérer les salles
             for (String sql : salleStatements) {
                 try {
                     stmt.execute(sql);
@@ -242,7 +219,6 @@ public class DatabaseManager {
                 }
             }
 
-            // Insérer les créneaux horaires
             for (String sql : creneauxStatements) {
                 try {
                     stmt.execute(sql);
@@ -255,9 +231,6 @@ public class DatabaseManager {
         }
     }
 
-    public static boolean ajouterUtilisateur(String nom, String prenom, String email, String motDePasse, String type) {
-        return ajouterUtilisateur(nom, prenom, email, motDePasse, type, null);
-    }
 
     public static boolean ajouterUtilisateur(String nom, String prenom, String email, String motDePasse, String type, String classe) {
         String sql = "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, type, classe) VALUES (?, ?, ?, ?, ?, ?)";
@@ -331,33 +304,31 @@ public class DatabaseManager {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
-            // Supprimer tous les anciens créneaux
             stmt.execute("DELETE FROM creneau_horaire");
             System.out.println("Anciens créneaux supprimés.");
 
-            // Réinsérer les nouveaux créneaux
             String[] creneauxStatements = {
-                    // Lundi
+
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('LUNDI', '08:30', '10:30', 1)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('LUNDI', '10:45', '12:45', 2)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('LUNDI', '13:45', '15:45', 3)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('LUNDI', '16:00', '18:00', 4)",
-                    // Mardi
+
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MARDI', '08:30', '10:30', 1)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MARDI', '10:45', '12:45', 2)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MARDI', '13:45', '15:45', 3)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MARDI', '16:00', '18:00', 4)",
-                    // Mercredi
+
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MERCREDI', '08:30', '10:30', 1)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MERCREDI', '10:45', '12:45', 2)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MERCREDI', '13:45', '15:45', 3)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('MERCREDI', '16:00', '18:00', 4)",
-                    // Jeudi
+
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('JEUDI', '08:30', '10:30', 1)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('JEUDI', '10:45', '12:45', 2)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('JEUDI', '13:45', '15:45', 3)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('JEUDI', '16:00', '18:00', 4)",
-                    // Vendredi
+
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('VENDREDI', '08:30', '10:30', 1)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('VENDREDI', '10:45', '12:45', 2)",
                     "INSERT INTO creneau_horaire (jour_semaine, heure_debut, heure_fin, numero_slot) VALUES ('VENDREDI', '13:45', '15:45', 3)",
@@ -379,7 +350,6 @@ public class DatabaseManager {
         }
     }
 
-    // Méthodes pour la gestion des emplois du temps
     public static boolean ajouterCoursEmploiDuTemps(String nomCours, String enseignantEmail, String classe, String salle, int creneauId) {
         String sql = "INSERT INTO cours_emploi_temps (nom_cours, enseignant_email, classe, salle, creneau_id) VALUES (?, ?, ?, ?, ?)";
 

@@ -18,7 +18,6 @@ import java.util.List;
 
 public class ExportSystem {
 
-    // Export en CSV
     public static void exporterEmploiDuTempsCSV(String classe, Stage parentStage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Exporter l'emploi du temps en CSV");
@@ -43,10 +42,8 @@ public class ExportSystem {
         List<CoursEmploiDuTemps> cours = DatabaseManager.getEmploiDuTempsParClasse(classe);
 
         try (FileWriter writer = new FileWriter(file)) {
-            // En-têtes CSV
             writer.append("Classe,Cours,Enseignant,Jour,Heure_Debut,Heure_Fin,Salle\n");
 
-            // Données
             for (CoursEmploiDuTemps coursEdt : cours) {
                 writer.append(classe).append(",")
                         .append(coursEdt.getNomCours()).append(",")
@@ -59,7 +56,6 @@ public class ExportSystem {
         }
     }
 
-    // Export de toutes les classes en CSV
     public static void exporterToutesLesClassesCSV(Stage parentStage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Exporter tous les emplois du temps en CSV");
@@ -84,10 +80,8 @@ public class ExportSystem {
         List<String> classes = DatabaseManager.getToutesLesClasses();
 
         try (FileWriter writer = new FileWriter(file)) {
-            // En-têtes CSV
             writer.append("Classe,Cours,Enseignant,Jour,Heure_Debut,Heure_Fin,Salle\n");
 
-            // Pour chaque classe
             for (String classe : classes) {
                 List<CoursEmploiDuTemps> cours = DatabaseManager.getEmploiDuTempsParClasse(classe);
 
@@ -104,7 +98,6 @@ public class ExportSystem {
         }
     }
 
-    // Impression directe (comme PDF)
     public static void imprimerEmploiDuTemps(Node nodeToprint, String titre) {
         Printer printer = Printer.getDefaultPrinter();
         if (printer == null) {
@@ -126,7 +119,6 @@ public class ExportSystem {
         }
     }
 
-    // Export des statistiques en CSV
     public static void exporterStatistiquesCSV(Stage parentStage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Exporter les statistiques en CSV");
@@ -151,7 +143,6 @@ public class ExportSystem {
         try (FileWriter writer = new FileWriter(file)) {
             writer.append("Type,Statistique,Valeur\n");
 
-            // Statistiques générales
             try (var conn = DatabaseManager.getConnection();
                  var stmt = conn.createStatement()) {
 
@@ -175,7 +166,6 @@ public class ExportSystem {
                     writer.append("General,Nombre de classes,").append(String.valueOf(rs.getInt(1))).append("\n");
                 }
 
-                // Statistiques par classe
                 rs = stmt.executeQuery("SELECT classe, COUNT(*) as nb_cours FROM cours_emploi_temps GROUP BY classe");
                 while (rs.next()) {
                     writer.append("Classe,Cours pour ").append(rs.getString("classe")).append(",")

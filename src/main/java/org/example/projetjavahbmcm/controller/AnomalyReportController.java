@@ -54,7 +54,6 @@ public class AnomalyReportController {
             this.rapporteur = rapporteur;
         }
 
-        // Getters
         public int getId() { return id; }
         public String getDate() { return date; }
         public String getType() { return type; }
@@ -67,13 +66,10 @@ public class AnomalyReportController {
 
     @FXML
     public void initialize() {
-        // Initialiser la table des anomalies
         initTableAnomalies();
 
-        // Créer la table si elle n'existe pas
         creerTableAnomalies();
 
-        // Sélectionner la priorité moyenne par défaut
         comboPriorite.getSelectionModel().select(2);
     }
 
@@ -84,7 +80,6 @@ public class AnomalyReportController {
         colStatut.setCellValueFactory(new PropertyValueFactory<>("statut"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        // Personnaliser l'affichage du statut
         colStatut.setCellFactory(column -> new TableCell<Anomalie, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -201,12 +196,10 @@ public class AnomalyReportController {
 
             int affected = pstmt.executeUpdate();
             if (affected > 0) {
-                // Envoyer une notification aux administrateurs
                 String messagePriorite = priorite.contains("Urgente") ? "🔴 URGENT : " : "";
                 String messageNotif = messagePriorite + "Nouvelle anomalie signalée - " + type + " : " +
                         description.substring(0, Math.min(description.length(), 50)) + "...";
 
-                // Notifier tous les admins
                 notifierAdmins(messageNotif);
 
                 afficherSucces("Anomalie signalée avec succès ! Les administrateurs ont été notifiés.");

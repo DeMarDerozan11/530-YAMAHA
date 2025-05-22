@@ -6,13 +6,11 @@ public class Enseignant extends Utilisateur {
 
     private String specialite;
 
-    // Constructeur
     public Enseignant(int id, String nom, String prenom, String email, String telephone, String motDePasse, String specialite) {
         super(id, "Enseignant", nom, prenom, email, telephone, motDePasse);
         this.specialite = specialite;
     }
 
-    // Getter et Setter
     public String getSpecialite() {
         return specialite;
     }
@@ -21,7 +19,6 @@ public class Enseignant extends Utilisateur {
         this.specialite = specialite;
     }
 
-    // Méthodes spécifiques
     public void consulterCours(List<Cours> coursList) {
         System.out.println("Cours enseignés par " + getNom() + " :");
         for (Cours cours : coursList) {

@@ -10,7 +10,6 @@ public class Utilisateur {
     private String telephone;
     private String motDePasse;
 
-    // Constructeur
     public Utilisateur(int id, String role, String nom, String prenom, String email, String telephone, String motDePasse) {
         this.id = id;
         this.role = role;
@@ -21,7 +20,6 @@ public class Utilisateur {
         this.motDePasse = motDePasse;
     }
 
-    // Getters et Setters
     public int getId() {
         return id;
     }
@@ -78,7 +76,6 @@ public class Utilisateur {
         this.motDePasse = motDePasse;
     }
 
-    // Méthodes
     public boolean authentifier(String email, String motDePasse) {
         return this.email.equals(email) && this.motDePasse.equals(motDePasse);
     }

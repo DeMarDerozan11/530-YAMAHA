@@ -4,10 +4,10 @@ package org.example.projetjavahbmcm.model;
 
 public class CreneauHoraire {
     private int id;
-    private String jourSemaine; // LUNDI, MARDI, etc.
-    private String heureDebut;  // "09:00"
-    private String heureFin;    // "10:30"
-    private int numeroSlot;     // 1, 2, 3, etc. pour l'ordre dans la journée
+    private String jourSemaine;
+    private String heureDebut;
+    private String heureFin;
+    private int numeroSlot;
 
     public CreneauHoraire(int id, String jourSemaine, String heureDebut, String heureFin, int numeroSlot) {
         this.id = id;

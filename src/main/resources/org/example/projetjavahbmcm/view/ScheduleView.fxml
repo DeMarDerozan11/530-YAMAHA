@@ -20,9 +20,9 @@
                     <content>
                         <GridPane fx:id="gridEmploiDuTemps" gridLinesVisible="true" style="-fx-background-color: white; -fx-border-color: #cccccc;">
                             <columnConstraints>
-                                <!-- Colonne des heures -->
+
                                 <ColumnConstraints minWidth="80.0" prefWidth="80.0" />
-                                <!-- Colonnes des jours -->
+
                                 <ColumnConstraints minWidth="180.0" prefWidth="180.0" />
                                 <ColumnConstraints minWidth="180.0" prefWidth="180.0" />
                                 <ColumnConstraints minWidth="180.0" prefWidth="180.0" />
@@ -30,19 +30,18 @@
                                 <ColumnConstraints minWidth="180.0" prefWidth="180.0" />
                             </columnConstraints>
                             <rowConstraints>
-                                <!-- En-têtes -->
+
                                 <RowConstraints minHeight="40.0" prefHeight="40.0" />
-                                <!-- Créneaux du matin -->
+
                                 <RowConstraints minHeight="80.0" prefHeight="80.0" />
                                 <RowConstraints minHeight="80.0" prefHeight="80.0" />
-                                <!-- Espace pause déjeuner -->
+
                                 <RowConstraints minHeight="20.0" prefHeight="20.0" />
-                                <!-- Créneaux de l'après-midi -->
+
                                 <RowConstraints minHeight="80.0" prefHeight="80.0" />
                                 <RowConstraints minHeight="80.0" prefHeight="80.0" />
                             </rowConstraints>
 
-                            <!-- En-têtes des colonnes -->
                             <Label text="" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-background-color: #f0f0f0; -fx-alignment: center;" />
                             <Label text="LUNDI" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-background-color: #e3f2fd; -fx-alignment: center; -fx-font-weight: bold;" />
                             <Label text="MARDI" GridPane.columnIndex="2" GridPane.rowIndex="0" style="-fx-background-color: #e3f2fd; -fx-alignment: center; -fx-font-weight: bold;" />
@@ -50,10 +49,10 @@
                             <Label text="JEUDI" GridPane.columnIndex="4" GridPane.rowIndex="0" style="-fx-background-color: #e3f2fd; -fx-alignment: center; -fx-font-weight: bold;" />
                             <Label text="VENDREDI" GridPane.columnIndex="5" GridPane.rowIndex="0" style="-fx-background-color: #e3f2fd; -fx-alignment: center; -fx-font-weight: bold;" />
 
-                            <!-- En-têtes des lignes (heures) -->
+
                             <Label text="08:30-10:30" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-background-color: #f5f5f5; -fx-alignment: center; -fx-font-size: 11px;" />
                             <Label text="10:45-12:45" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-background-color: #f5f5f5; -fx-alignment: center; -fx-font-size: 11px;" />
-                            <!-- Espace pause déjeuner avec label -->
+
                             <Label text="PAUSE" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-background-color: #e8f5e8; -fx-alignment: center; -fx-font-size: 10px; -fx-text-fill: #666666;" />
                             <Label text="13:45-15:45" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-background-color: #f5f5f5; -fx-alignment: center; -fx-font-size: 11px;" />
                             <Label text="16:00-18:00" GridPane.columnIndex="0" GridPane.rowIndex="5" style="-fx-background-color: #f5f5f5; -fx-alignment: center; -fx-font-size: 11px;" />

@@ -2,14 +2,12 @@ package org.example.projetjavahbmcm.model;
 
 public class Cours {
 
-    // Attributs
     private int idCours;
     private String nom;
     private String horaire;
     private Enseignant enseignant;
     private Salle salle;
 
-    // Constructeur
     public Cours(int idCours, String nom, String horaire, Enseignant enseignant, Salle salle) {
         this.idCours = idCours;
         this.nom = nom;
@@ -18,7 +16,6 @@ public class Cours {
         this.salle = salle;
     }
 
-    // Getters et Setters
     public int getIdCours() {
         return idCours;
     }
@@ -59,7 +56,6 @@ public class Cours {
         this.salle = salle;
     }
 
-    // 👉 **Méthode manquante : obtenirDetails()**
     public String obtenirDetails() {
         return "Cours: " + nom +
                 ", Enseignant: " + (enseignant != null ? enseignant.getNom() : "Non défini") +

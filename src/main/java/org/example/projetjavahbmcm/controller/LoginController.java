@@ -40,7 +40,6 @@ public class LoginController {
 
         System.out.println("Tentative de connexion : " + email);
 
-        // Vérifier d'abord avec la base de données
         if (DatabaseManager.authentifierUtilisateur(email, password)) {
             System.out.println("Connexion réussie !");
 
@@ -70,7 +69,6 @@ public class LoginController {
 
                 Parent root = fxmlLoader.load();
 
-                // Passer les informations utilisateur aux contrôleurs si nécessaire
                 if ("etudiant".equals(typeUtilisateur)) {
                     StudentDashboardController controller = fxmlLoader.getController();
                     controller.setUtilisateurConnecte(email);
@@ -89,7 +87,6 @@ public class LoginController {
                 afficherAlerte("Erreur lors du chargement de l'interface.");
             }
         } else if (email.equals("admin@gmail.com") && password.equals("admin123")) {
-            // Connexion admin de secours (pour les tests)
             System.out.println("Connexion admin de secours !");
 
             try {

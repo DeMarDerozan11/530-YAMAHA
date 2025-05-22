@@ -35,7 +35,6 @@ public class AddUserController {
 
     @FXML
     private void initialize() {
-        // Listener pour afficher/masquer le champ classe selon le type
         comboType.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if ("etudiant".equals(newVal)) {
                 fieldClasse.setVisible(true);
@@ -46,7 +45,6 @@ public class AddUserController {
             }
         });
 
-        // Par défaut, masquer le champ classe
         fieldClasse.setVisible(false);
     }
 
@@ -59,30 +57,25 @@ public class AddUserController {
         String type = comboType.getValue();
         String classe = fieldClasse.getText().trim();
 
-        // Validation des champs obligatoires
         if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || motDePasse.isEmpty() || type == null) {
             afficherAlerte("Erreur", "Tous les champs obligatoires doivent être remplis.", Alert.AlertType.ERROR);
             return;
         }
 
-        // Validation de l'email
         if (!isValidEmail(email)) {
             afficherAlerte("Erreur", "Format d'email invalide.", Alert.AlertType.ERROR);
             return;
         }
 
-        // Validation du mot de passe
         if (motDePasse.length() < 6) {
             afficherAlerte("Erreur", "Le mot de passe doit contenir au moins 6 caractères.", Alert.AlertType.ERROR);
             return;
         }
 
-        // Pour les étudiants, la classe est optionnelle mais recommandée
         if ("etudiant".equals(type) && classe.isEmpty()) {
             classe = null; // Peut être null en base
         }
 
-        // Tentative d'ajout en base
         boolean success = DatabaseManager.ajouterUtilisateur(nom, prenom, email, motDePasse, type, classe);
 
         if (success) {

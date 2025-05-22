@@ -19,7 +19,6 @@
                     </children>
                 </HBox>
 
-                <!-- Statistiques générales -->
                 <HBox spacing="30.0" style="-fx-background-color: #f0f4f8; -fx-padding: 15px; -fx-background-radius: 8px;">
                     <children>
                         <Label fx:id="labelTotalCours" text="Total des cours : 0" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
@@ -41,10 +40,8 @@
             <content>
                 <VBox spacing="30.0">
                     <children>
-                        <!-- Première ligne de graphiques -->
                         <HBox spacing="20.0">
                             <children>
-                                <!-- Répartition des cours par classe -->
                                 <VBox style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8px; -fx-background-radius: 8px;" HBox.hgrow="ALWAYS">
                                     <children>
                                         <PieChart fx:id="pieChartCoursParClasse" prefHeight="300.0" />
@@ -54,7 +51,6 @@
                                     </padding>
                                 </VBox>
 
-                                <!-- Top enseignants -->
                                 <VBox prefWidth="300.0" style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8px; -fx-background-radius: 8px;">
                                     <children>
                                         <Label text="🏆 Top 5 Enseignants" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
@@ -68,7 +64,6 @@
                             </children>
                         </HBox>
 
-                        <!-- Deuxième ligne : Heures par enseignant -->
                         <VBox style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8px; -fx-background-radius: 8px;">
                             <children>
                                 <BarChart fx:id="barChartHeuresEnseignant" prefHeight="400.0">
@@ -85,7 +80,6 @@
                             </padding>
                         </VBox>
 
-                        <!-- Troisième ligne : Occupation des salles -->
                         <VBox style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 8px; -fx-background-radius: 8px;">
                             <children>
                                 <LineChart fx:id="lineChartOccupationSalles" prefHeight="350.0">

@@ -5,13 +5,11 @@ public class Administrateur extends Utilisateur {
 
     private int idAdmin;
 
-    // Constructeur
     public Administrateur(int id, String nom, String prenom, String email, String telephone, String motDePasse, int idAdmin) {
         super(id, "Administrateur", nom, prenom, email, telephone, motDePasse);
         this.idAdmin = idAdmin;
     }
 
-    // Getter et Setter
     public int getIdAdmin() {
         return idAdmin;
     }
@@ -20,7 +18,6 @@ public class Administrateur extends Utilisateur {
         this.idAdmin = idAdmin;
     }
 
-    // Méthodes spécifiques
     public void creerEmploiDuTemps(EmploiDuTemps emploi) {
         System.out.println("Création de l'emploi du temps : " + emploi);
     }
