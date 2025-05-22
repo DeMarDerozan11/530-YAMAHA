@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjavahbmcm.controller.ModernDashboardController">
+
+    <!-- HEADER -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #1e3a8a; -fx-padding: 15px;">
+            <children>
+                <Label text="📊 Admin Dashboard" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="labelWelcome" text="Bienvenue, Administrateur" style="-fx-font-size: 14px; -fx-text-fill: #e0e7ff;" />
+                <Button onAction="#handleLogout" text="Déconnexion" style="-fx-background-color: #dc2626; -fx-text-fill: white; -fx-background-radius: 5px;" />
+            </children>
+        </HBox>
+    </top>
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="250.0" spacing="5.0" style="-fx-background-color: #f8fafc; -fx-border-color: #e2e8f0; -fx-border-width: 0 1 0 0;">
+            <children>
+                <Label text="NAVIGATION" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b; -fx-padding: 20 15 10 15;" />
+
+                <Button fx:id="btnOverview" onAction="#handleShowOverview" text="📈 Vue d'ensemble" prefWidth="220.0" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 12px; -fx-background-radius: 0; -fx-font-size: 13px;" />
+
+                <Button fx:id="btnSchedules" onAction="#handleShowSchedules" text="📅 Emplois du temps" prefWidth="220.0" style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-alignment: CENTER_LEFT; -fx-padding: 12px; -fx-background-radius: 0; -fx-font-size: 13px;" />
+
+                <Button fx:id="btnUsers" onAction="#handleShowUsers" text="👥 Utilisateurs" prefWidth="220.0" style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-alignment: CENTER_LEFT; -fx-padding: 12px; -fx-background-radius: 0; -fx-font-size: 13px;" />
+
+                <Button fx:id="btnRooms" onAction="#handleShowRooms" text="🏫 Salles" prefWidth="220.0" style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-alignment: CENTER_LEFT; -fx-padding: 12px; -fx-background-radius: 0; -fx-font-size: 13px;" />
+
+                <Button fx:id="btnStats" onAction="#handleShowStats" text="📊 Statistiques" prefWidth="220.0" style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-alignment: CENTER_LEFT; -fx-padding: 12px; -fx-background-radius: 0; -fx-font-size: 13px;" />
+
+                <Separator style="-fx-background-color: #e2e8f0;" />
+
+                <Label text="ACTIONS RAPIDES" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b; -fx-padding: 15 15 10 15;" />
+
+                <Button onAction="#handleCreateCourse" text="➕ Créer un cours" prefWidth="220.0" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 10px; -fx-background-radius: 5px; -fx-font-size: 12px;" />
+
+                <Button onAction="#handleAddUser" text="👤 Ajouter utilisateur" prefWidth="220.0" style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 10px; -fx-background-radius: 5px; -fx-font-size: 12px;" />
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+            </padding>
+        </VBox>
+    </left>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: #ffffff;">
+            <children>
+                <!-- VUE D'ENSEMBLE PAR DÉFAUT -->
+                <VBox fx:id="overviewPanel" spacing="25.0">
+                    <children>
+                        <Label text="Vue d'ensemble" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+
+                        <!-- STATISTIQUES EN CARTES -->
+                        <HBox spacing="20.0">
+                            <children>
+                                <!-- Carte Cours -->
+                                <VBox style="-fx-background-color: #ffffff; -fx-border-color: #e5e7eb; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);" prefWidth="180.0">
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <children>
+                                                <Label text="📚" style="-fx-font-size: 24px;" />
+                                                <VBox>
+                                                    <children>
+                                                        <Label fx:id="labelNbCours" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                                                        <Label text="Cours créés" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                    </padding>
+                                </VBox>
+
+                                <!-- Carte Classes -->
+                                <VBox style="-fx-background-color: #ffffff; -fx-border-color: #e5e7eb; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);" prefWidth="180.0">
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <children>
+                                                <Label text="🎓" style="-fx-font-size: 24px;" />
+                                                <VBox>
+                                                    <children>
+                                                        <Label fx:id="labelNbClasses" text="6" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                                                        <Label text="Classes" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                    </padding>
+                                </VBox>
+
+                                <!-- Carte Enseignants -->
+                                <VBox style="-fx-background-color: #ffffff; -fx-border-color: #e5e7eb; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);" prefWidth="180.0">
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <children>
+                                                <Label text="👨‍🏫" style="-fx-font-size: 24px;" />
+                                                <VBox>
+                                                    <children>
+                                                        <Label fx:id="labelNbEnseignants" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                                                        <Label text="Enseignants" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                    </padding>
+                                </VBox>
+
+                                <!-- Carte Étudiants -->
+                                <VBox style="-fx-background-color: #ffffff; -fx-border-color: #e5e7eb; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);" prefWidth="180.0">
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <children>
+                                                <Label text="👨‍🎓" style="-fx-font-size: 24px;" />
+                                                <VBox>
+                                                    <children>
+                                                        <Label fx:id="labelNbEtudiants" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                                                        <Label text="Étudiants" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                    </padding>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <!-- SECTION EMPLOIS DU TEMPS RÉCENTS -->
+                        <VBox spacing="15.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <children>
+                                        <Label text="📅 Emplois du temps récents" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Button onAction="#handleViewAllSchedules" text="Voir tout" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 8px 15px;" />
+                                    </children>
+                                </HBox>
+
+                                <TableView fx:id="tableRecentCourses" prefHeight="200.0" style="-fx-background-color: white; -fx-border-color: #e5e7eb; -fx-border-radius: 8px;">
+                                    <columns>
+                                        <TableColumn text="Cours" prefWidth="150.0" fx:id="colCours" />
+                                        <TableColumn text="Enseignant" prefWidth="150.0" fx:id="colEnseignant" />
+                                        <TableColumn text="Classe" prefWidth="80.0" fx:id="colClasse" />
+                                        <TableColumn text="Salle" prefWidth="80.0" fx:id="colSalle" />
+                                        <TableColumn text="Jour" prefWidth="100.0" fx:id="colJour" />
+                                        <TableColumn text="Horaire" prefWidth="120.0" fx:id="colHoraire" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+
+                        <!-- ACTIONS RAPIDES -->
+                        <VBox spacing="15.0">
+                            <children>
+                                <Label text="⚡ Actions rapides" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+
+                                <HBox spacing="15.0">
+                                    <children>
+                                        <Button onAction="#handleCreateCourse" text="➕ Créer un nouveau cours" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-padding: 15px 20px; -fx-background-radius: 8px; -fx-font-size: 14px;" />
+
+                                        <Button onAction="#handleAddUser" text="👤 Ajouter un utilisateur" style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-padding: 15px 20px; -fx-background-radius: 8px; -fx-font-size: 14px;" />
+
+                                        <Button onAction="#handleViewCalendar" text="📅 Vue calendrier" style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-padding: 15px 20px; -fx-background-radius: 8px; -fx-font-size: 14px;" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                    </padding>
+                </VBox>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>
