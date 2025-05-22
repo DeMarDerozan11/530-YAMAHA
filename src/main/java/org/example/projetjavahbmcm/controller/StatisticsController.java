@@ -40,7 +40,6 @@ public class StatisticsController {
 
     private void chargerStatsGenerales() {
         try (Connection conn = DatabaseManager.getConnection()) {
-            // Total des cours
             String sqlCours = "SELECT COUNT(*) as total FROM cours_emploi_temps";
             try (var stmt = conn.prepareStatement(sqlCours);
                  ResultSet rs = stmt.executeQuery()) {
@@ -49,7 +48,6 @@ public class StatisticsController {
                 }
             }
 
-            // Total des heures (en supposant 2h par cours)
             String sqlHeures = "SELECT COUNT(*) * 2 as total_heures FROM cours_emploi_temps";
             try (var stmt = conn.prepareStatement(sqlHeures);
                  ResultSet rs = stmt.executeQuery()) {
@@ -58,7 +56,6 @@ public class StatisticsController {
                 }
             }
 
-            // Taux de remplissage moyen
             String sqlTaux = """
                 SELECT AVG(taux) as taux_moyen FROM (
                     SELECT classe, 
@@ -137,7 +134,6 @@ public class StatisticsController {
             barChartHeuresEnseignant.getData().add(series);
             barChartHeuresEnseignant.setTitle("Heures par enseignant (Top 10)");
 
-            // Rotation des labels pour une meilleure lisibilité
             barChartHeuresEnseignant.getXAxis().setTickLabelRotation(45);
 
         } catch (SQLException e) {
@@ -224,7 +220,6 @@ public class StatisticsController {
 
     @FXML
     private void handleExporterStats() {
-        // Utiliser la classe ExportSystem existante
         javafx.stage.Stage stage = (javafx.stage.Stage) pieChartCoursParClasse.getScene().getWindow();
         org.example.projetjavahbmcm.util.ExportSystem.exporterStatistiquesCSV(stage);
     }

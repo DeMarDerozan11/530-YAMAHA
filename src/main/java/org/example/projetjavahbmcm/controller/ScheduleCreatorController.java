@@ -57,7 +57,6 @@ public class ScheduleCreatorController {
     }
 
     private void setupComboBoxListeners() {
-        // Listener pour filtrer les créneaux selon le jour sélectionné
         comboJour.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 chargerCreneauxPourJour(newVal);
@@ -66,22 +65,17 @@ public class ScheduleCreatorController {
     }
 
     private void chargerDonnees() {
-        // Charger les enseignants
         List<String> enseignants = DatabaseManager.getTousLesEnseignants();
         comboEnseignant.setItems(FXCollections.observableArrayList(enseignants));
 
-        // Charger les classes
         List<String> classes = DatabaseManager.getToutesLesClasses();
         comboClasse.setItems(FXCollections.observableArrayList(classes));
 
-        // Charger les salles
         List<String> salles = DatabaseManager.getToutesLesSalles();
         comboSalle.setItems(FXCollections.observableArrayList(salles));
 
-        // Charger tous les créneaux pour référence
         tousLesCreneaux = DatabaseManager.getTousLesCreneaux();
 
-        // Charger les cours existants
         chargerCoursExistants();
     }
 
@@ -100,7 +94,6 @@ public class ScheduleCreatorController {
     private void chargerCoursExistants() {
         listeCours.clear();
 
-        // Charger tous les cours pour toutes les classes
         List<String> classes = DatabaseManager.getToutesLesClasses();
         for (String classe : classes) {
             List<CoursEmploiDuTemps> coursClasse = DatabaseManager.getEmploiDuTempsParClasse(classe);
@@ -121,7 +114,6 @@ public class ScheduleCreatorController {
         String salle = comboSalle.getValue();
         String creneauComplet = comboCreneau.getValue();
 
-        // Extraire l'ID du créneau
         int creneauId = Integer.parseInt(creneauComplet.substring(creneauComplet.lastIndexOf("(ID: ") + 5, creneauComplet.lastIndexOf(")")));
 
         boolean success = DatabaseManager.ajouterCoursEmploiDuTemps(nomCours, enseignantEmail, classe, salle, creneauId);
@@ -194,7 +186,6 @@ public class ScheduleCreatorController {
 
         if (confirmation.getResult() == ButtonType.YES) {
             // TODO: Implémenter la suppression en base de données
-            // Pour l'instant, on supprime juste de la liste
             listeCours.remove(coursSelectionne);
             afficherAlerte("Succès", "Cours supprimé avec succès.", Alert.AlertType.INFORMATION);
         }

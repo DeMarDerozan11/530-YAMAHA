@@ -45,11 +45,9 @@ public class SearchFilterController {
         chargerDonneesComboBox();
         chargerTousLesCours();
 
-        // Configurer la liste filtrée
         filteredCours = new FilteredList<>(allCours, p -> true);
         tableResultats.setItems(filteredCours);
 
-        // Ajouter les listeners pour les filtres
         setupFilterListeners();
 
         updateResultCount();
@@ -67,29 +65,24 @@ public class SearchFilterController {
     }
 
     private void chargerDonneesComboBox() {
-        // Classes
         List<String> classes = DatabaseManager.getToutesLesClasses();
         comboClasse.getItems().add("Toutes les classes");
         comboClasse.getItems().addAll(classes);
         comboClasse.getSelectionModel().selectFirst();
 
-        // Enseignants
         List<String> enseignants = DatabaseManager.getTousLesEnseignants();
         comboEnseignant.getItems().add("Tous les enseignants");
         comboEnseignant.getItems().addAll(enseignants);
         comboEnseignant.getSelectionModel().selectFirst();
 
-        // Jours
         comboJour.getItems().addAll("Tous les jours", "LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI");
         comboJour.getSelectionModel().selectFirst();
 
-        // Salles
         List<String> salles = DatabaseManager.getToutesLesSalles();
         comboSalle.getItems().add("Toutes les salles");
         comboSalle.getItems().addAll(salles);
         comboSalle.getSelectionModel().selectFirst();
 
-        // Périodes
         comboPeriode.getItems().addAll("Toute la journée", "Matin (8h30-12h45)", "Après-midi (13h45-18h00)");
         comboPeriode.getSelectionModel().selectFirst();
     }
@@ -105,10 +98,8 @@ public class SearchFilterController {
     }
 
     private void setupFilterListeners() {
-        // Listener pour la recherche textuelle
         fieldRecherche.textProperty().addListener((observable, oldValue, newValue) -> appliquerFiltres());
 
-        // Listeners pour les ComboBox
         comboClasse.getSelectionModel().selectedItemProperty().addListener((obs, old, newVal) -> appliquerFiltres());
         comboEnseignant.getSelectionModel().selectedItemProperty().addListener((obs, old, newVal) -> appliquerFiltres());
         comboJour.getSelectionModel().selectedItemProperty().addListener((obs, old, newVal) -> appliquerFiltres());
@@ -118,7 +109,6 @@ public class SearchFilterController {
 
     private void appliquerFiltres() {
         filteredCours.setPredicate(cours -> {
-            // Filtre par recherche textuelle
             String searchText = fieldRecherche.getText().toLowerCase();
             if (!searchText.isEmpty()) {
                 boolean matchesSearch = cours.getNomCours().toLowerCase().contains(searchText) ||
@@ -127,32 +117,27 @@ public class SearchFilterController {
                 if (!matchesSearch) return false;
             }
 
-            // Filtre par classe
             String selectedClasse = comboClasse.getValue();
             if (selectedClasse != null && !selectedClasse.equals("Toutes les classes")) {
                 if (!cours.getClasse().equals(selectedClasse)) return false;
             }
 
-            // Filtre par enseignant
             String selectedEnseignant = comboEnseignant.getValue();
             if (selectedEnseignant != null && !selectedEnseignant.equals("Tous les enseignants")) {
                 String enseignantEmail = selectedEnseignant.split(" - ")[0];
                 if (!cours.getEnseignantEmail().equals(enseignantEmail)) return false;
             }
 
-            // Filtre par jour
             String selectedJour = comboJour.getValue();
             if (selectedJour != null && !selectedJour.equals("Tous les jours")) {
                 if (!cours.getCreneau().getJourSemaine().equals(selectedJour)) return false;
             }
 
-            // Filtre par salle
             String selectedSalle = comboSalle.getValue();
             if (selectedSalle != null && !selectedSalle.equals("Toutes les salles")) {
                 if (!cours.getSalle().equals(selectedSalle)) return false;
             }
 
-            // Filtre par période
             String selectedPeriode = comboPeriode.getValue();
             if (selectedPeriode != null && !selectedPeriode.equals("Toute la journée")) {
                 String heureDebut = cours.getCreneau().getHeureDebut();
@@ -191,7 +176,6 @@ public class SearchFilterController {
     }
 
     private void rechercherCreneauxLibres() {
-        // Obtenir les filtres actuels
         String selectedClasse = comboClasse.getValue();
         String selectedSalle = comboSalle.getValue();
         String selectedJour = comboJour.getValue();
@@ -204,7 +188,6 @@ public class SearchFilterController {
 
         List<String> creneauxLibres = new ArrayList<>();
 
-        // Pour chaque jour et créneau possible
         String[] jours = {"LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"};
         String[] creneaux = {"08:30-10:30", "10:45-12:45", "13:45-15:45", "16:00-18:00"};
 
@@ -216,7 +199,6 @@ public class SearchFilterController {
             for (String creneau : creneaux) {
                 boolean isLibre = true;
 
-                // Vérifier si le créneau est libre
                 for (CoursEmploiDuTemps cours : allCours) {
                     if (cours.getCreneau().getJourSemaine().equals(jour) &&
                             cours.getCreneau().getPlageHoraire().equals(creneau)) {
@@ -258,10 +240,8 @@ public class SearchFilterController {
             return;
         }
 
-        // Utiliser ExportSystem pour exporter les résultats filtrés
         javafx.stage.Stage stage = (javafx.stage.Stage) tableResultats.getScene().getWindow();
 
-        // Créer un nom de fichier descriptif basé sur les filtres
         StringBuilder filename = new StringBuilder("Emploi_du_temps_filtre");
 
         if (!comboClasse.getValue().equals("Toutes les classes")) {

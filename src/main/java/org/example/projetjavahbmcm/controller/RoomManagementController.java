@@ -34,18 +34,15 @@ public class RoomManagementController {
 
     @FXML
     public void initialize() {
-        // Configuration du Spinner pour la capacité
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 200, 30);
         spinnerCapacite.setValueFactory(valueFactory);
 
-        // Configuration des colonnes du tableau
         colId.setCellValueFactory(new PropertyValueFactory<>("idSalle"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colCapacite.setCellValueFactory(new PropertyValueFactory<>("capacite"));
         colEquipement.setCellValueFactory(new PropertyValueFactory<>("equipement"));
         colDisponible.setCellValueFactory(new PropertyValueFactory<>("disponible"));
 
-        // Personnaliser l'affichage de la colonne disponible
         colDisponible.setCellFactory(column -> new TableCell<Salle, Boolean>() {
             @Override
             protected void updateItem(Boolean item, boolean empty) {
@@ -61,7 +58,6 @@ public class RoomManagementController {
 
         tableSalles.setItems(listeSalles);
 
-        // Listener pour la sélection dans le tableau
         tableSalles.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 afficherDetailsSalle(newSelection);
@@ -98,7 +94,6 @@ public class RoomManagementController {
 
     private void chargerStatistiques() {
         try (Connection conn = DatabaseManager.getConnection()) {
-            // Taux d'occupation global
             String sqlTaux = """
                 SELECT 
                     COUNT(DISTINCT c.salle) as salles_occupees,
@@ -117,7 +112,6 @@ public class RoomManagementController {
                 }
             }
 
-            // Salles les plus utilisées
             String sqlTop = """
                 SELECT s.nom, COUNT(c.id) as nb_cours
                 FROM salle s
@@ -234,7 +228,6 @@ public class RoomManagementController {
             return;
         }
 
-        // Vérifier si la salle est utilisée dans des cours
         String checkSql = "SELECT COUNT(*) FROM cours_emploi_temps WHERE salle = ?";
 
         try (Connection conn = DatabaseManager.getConnection();
@@ -248,7 +241,6 @@ public class RoomManagementController {
                 return;
             }
 
-            // Confirmation
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
             confirm.setTitle("Confirmation");
             confirm.setHeaderText("Supprimer la salle " + salleSelectionnee.getNom() + " ?");

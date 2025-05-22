@@ -32,18 +32,15 @@ public class StudentDashboardController {
     }
 
     private void setupGrid() {
-        // Ajouter les en-têtes à la grille
         String[] jours = {"", "LUNDI", "MARDI", "MERCREDI", "JEUDI", "VENDREDI"};
         String[] heures = {"08:30-10:30", "10:45-12:45", "13:45-15:45", "16:00-18:00"};
 
-        // En-têtes des jours
         for (int i = 0; i < jours.length; i++) {
             Label label = new Label(jours[i]);
             label.setStyle("-fx-background-color: #e3f2fd; -fx-alignment: center; -fx-font-weight: bold; -fx-padding: 5px;");
             gridEmploiDuTemps.add(label, i, 0);
         }
 
-        // En-têtes des heures
         for (int i = 0; i < heures.length; i++) {
             Label label = new Label(heures[i]);
             label.setStyle("-fx-background-color: #f5f5f5; -fx-alignment: center; -fx-font-size: 11px; -fx-padding: 5px;");
